@@ -36,6 +36,10 @@
 </camelContext>
 
 <bean id="csvorderToCDM" class="nl.rubix.codefest.orderprocessing.mappings.CsvOrderModelToCDM"/>
-<bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent" />
+<bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+	<property name="brokerURL" value="vm://localhost"/>
+    <property name="userName" value="admin"/>
+    <property name="password" value="admin"/>
+</bean>
 
 </blueprint>
