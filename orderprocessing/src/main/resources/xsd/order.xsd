@@ -5,7 +5,7 @@
 	<element name="order">
 		<complexType>
 			<sequence>
-				<element name="ID" type="string"/>
+				<element name="orderId" type="string"/>
 				<element name="totalAmount" type="integer" />
 				<element name="totalPrice" type="decimal" />
 				<element name="countryCode" type="string" />

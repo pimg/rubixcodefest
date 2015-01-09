@@ -110,7 +110,7 @@ public class ReceiveOrdersXmlTest extends CamelBlueprintTestSupport {
 		
 		//check one message for expected output
 		Order order = mockOut.getExchanges().get(0).getIn().getBody(Order.class);
-		assertEquals(order.getID(),"1");
+		assertEquals(order.getOrderId(),"1");
 		
 		assertMockEndpointsSatisfied();
 	}
@@ -128,7 +128,7 @@ public class ReceiveOrdersXmlTest extends CamelBlueprintTestSupport {
 		
 		//create a test message
 		Order testRequest = new Order();
-		testRequest.setID("1");
+		testRequest.setOrderId("1");
 		testRequest.setTotalAmount(new BigInteger("100"));
 		testRequest.setTotalPrice(new BigDecimal(100.1));
 		testRequest.setCountryCode("nl");

@@ -23,7 +23,7 @@
         <choice>
             <when>
                 <simple>${body.countryCode} == 'nl'</simple>
-                <log message="order for nl"/>
+                <log message="order for nl: ${body}"/>
                 <inOnly uri="activemq:queue:orders.nl"/>
             </when>
             <otherwise>

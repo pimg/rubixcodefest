@@ -6,9 +6,27 @@
        http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
 
   <camelContext trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+  	<propertyPlaceholder id="placeholder" location="classpath:sql.properties"/>
     <route customId="true" id="receiveNlOrders">
-        <from uri="activemq:queue.orders.nl"/>
+        <from uri="activemq:queue:orders.nl"/>
         <log message="received order"/>
+        <unmarshal>
+            <jaxb contextPath="nl.rubix.orderprocessing.order._1" partClass="nl.rubix.orderprocessing.order._1.Order"/>
+        </unmarshal>
+        <setHeader headerName="orderId">
+            <simple>${body.orderId}</simple>
+        </setHeader>
+        <setHeader headerName="totalAmount">
+            <simple>${body.totalAmount}</simple>
+        </setHeader>
+        <setHeader headerName="totalPrice">
+            <simple>${body.totalPrice}</simple>
+        </setHeader>
+        <setHeader headerName="countryCode">
+            <simple>${body.countryCode}</simple>
+        </setHeader>
+        <to uri="sql:{{sql.insertOrder}}"/>
+		<log message="Inserted new order ${body.orderId}"/>
     </route>
 </camelContext>
 

@@ -31,7 +31,7 @@ public class CsvOrderModelToCDM implements Processor{
 		Order order = objFac.createOrder();
 		
 		// create the data mepping by assinging the setters of the order object to the getters of the csvOrder object
-		order.setID(csvOrder.getOrderId());
+		order.setOrderId(csvOrder.getOrderId());
 		// since totalPrice is a BigDecimal and price is a Double we need to convert the type
 		BigDecimal bdPrice = new BigDecimal(csvOrder.getPrice(), MathContext.DECIMAL64);
 		order.setTotalPrice(bdPrice);
