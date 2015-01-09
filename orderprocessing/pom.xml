@@ -7,11 +7,14 @@
 	<artifactId>orderprocessing</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>bundle</packaging>
-	<name>A Camel Blueprint Route</name>
-	<url>http://www.myorganization.org</url>
+	<name>Rubix Codefest JBoss Fuse orderprocessing use case</name>
+	<url>http://www.rubix.nl</url>
 	<properties>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<camel.osgi.export.pkg>org.apache.camel.example.sql.*</camel.osgi.export.pkg>
+		<!-- dynamic import for the Derby JDBC driver -->
+		<camel.osgi.dynamic>*</camel.osgi.dynamic>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -78,6 +81,23 @@
 			<version>5.9.0</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- dependencies for sql and Derby database -->
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>
+			<version>10.11.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-sql</artifactId>
+			<version>2.12.0.redhat-610379</version>
+		</dependency>
+
 		<!-- dependencies for unittesting -->
 		<dependency>
 			<groupId>org.apache.camel</groupId>

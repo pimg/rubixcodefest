@@ -145,7 +145,7 @@ public class ReceiveOrdersXmlTest extends CamelBlueprintTestSupport {
 
 	@Override
 	protected String getBlueprintDescriptor() {
-		return "OSGI-INF/blueprint/ReceiveOrders.xml";
+		return "/OSGI-INF/blueprint/ReceiveOrders.xml,/OSGI-INF/blueprint/shared-resources.xml";
 	}
 
 }

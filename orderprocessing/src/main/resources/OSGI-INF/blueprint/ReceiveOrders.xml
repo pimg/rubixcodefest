@@ -20,7 +20,6 @@
     </route>
     <route customId="true" id="routeOrders">
         <from uri="direct:routeOrders"/>
-        <log message="test: ${body.countryCode}"/>
         <choice>
             <when>
                 <simple>${body.countryCode} == 'nl'</simple>
@@ -36,10 +35,6 @@
 </camelContext>
 
 <bean id="csvorderToCDM" class="nl.rubix.codefest.orderprocessing.mappings.CsvOrderModelToCDM"/>
-<bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
-	<property name="brokerURL" value="vm://localhost"/>
-    <property name="userName" value="admin"/>
-    <property name="password" value="admin"/>
-</bean>
+
 
 </blueprint>
