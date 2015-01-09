@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.rubix.nl/orderprocessing/order/1"
+	xmlns:tns="http://www.rubix.nl/orderprocessing/order/1"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<element name="order">
+		<complexType>
+			<sequence>
+				<element name="ID" type="string"/>
+				<element name="totalAmount" type="integer" />
+				<element name="totalPrice" type="decimal" />
+				<element name="countryCode" type="string" />
+			</sequence>
+		</complexType>
+	</element>
+</schema>

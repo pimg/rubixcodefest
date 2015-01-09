@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+       xmlns:camel="http://camel.apache.org/schema/blueprint"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+       http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+
+  <camelContext trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+    <dataFormats>
+        <bindy type="Csv" packages="nl.rubix.codefest.orderprocessing.message" id="csvordermodel"/>
+    </dataFormats>
+    <route customId="true" id="receiveOrderCsv.transport">
+        <from uri="direct:in"/>
+        <unmarshal ref="csvordermodel"/>
+        <split>
+    		<simple>${body}</simple>
+    		<process ref="csvorderToCDM"/>
+    		<to uri="direct:routeOrders"/>
+    	</split>
+    </route>
+    <route customId="true" id="routeOrders">
+    	<from uri="direct:routeOrders"/>
+    	<log message="test: ${body.countryCode}"/>
+    </route>
+</camelContext>
+
+<bean id="csvorderToCDM" class="nl.rubix.codefest.orderprocessing.mappings.CsvOrderModelToCDM"/>
+
+</blueprint>
