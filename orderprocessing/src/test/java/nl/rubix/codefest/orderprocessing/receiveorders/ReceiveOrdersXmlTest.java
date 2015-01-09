@@ -1,5 +1,7 @@
 package nl.rubix.codefest.orderprocessing.receiveorders;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -111,6 +113,34 @@ public class ReceiveOrdersXmlTest extends CamelBlueprintTestSupport {
 		assertEquals(order.getID(),"1");
 		
 		assertMockEndpointsSatisfied();
+	}
+	
+	@Test
+	public void testRouteOrders() throws Exception{
+		// intercept the activemq endpoint so we can use it in the unittest
+		context.getRouteDefinition("routeOrders").adviceWith(context, new AdviceWithRouteBuilder() {
+			@Override		
+			public void configure() throws Exception {
+				interceptSendToEndpoint("activemq:queue:orders.nl").skipSendToOriginalEndpoint().to("mock:out");
+					}
+				});
+		context.start();
+		
+		//create a test message
+		Order testRequest = new Order();
+		testRequest.setID("1");
+		testRequest.setTotalAmount(new BigInteger("100"));
+		testRequest.setTotalPrice(new BigDecimal(100.1));
+		testRequest.setCountryCode("nl");
+		
+		MockEndpoint mockOut = getMockEndpoint("mock:out");
+		
+		mockOut.setExpectedMessageCount(1);
+		
+		template.sendBody("direct:routeOrders", testRequest);
+		
+		assertMockEndpointsSatisfied();
+		
 	}
 
 	@Override

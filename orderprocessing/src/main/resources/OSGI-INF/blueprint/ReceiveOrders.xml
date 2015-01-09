@@ -13,17 +13,29 @@
         <from uri="direct:in"/>
         <unmarshal ref="csvordermodel"/>
         <split>
-    		<simple>${body}</simple>
-    		<process ref="csvorderToCDM"/>
-    		<to uri="direct:routeOrders"/>
-    	</split>
+            <simple>${body}</simple>
+            <process ref="csvorderToCDM"/>
+            <to uri="direct:routeOrders"/>
+        </split>
     </route>
     <route customId="true" id="routeOrders">
-    	<from uri="direct:routeOrders"/>
-    	<log message="test: ${body.countryCode}"/>
+        <from uri="direct:routeOrders"/>
+        <log message="test: ${body.countryCode}"/>
+        <choice>
+            <when>
+                <simple>${body.countryCode} == 'nl'</simple>
+                <log message="order for nl"/>
+                <inOnly uri="activemq:queue:orders.nl"/>
+            </when>
+            <otherwise>
+                <log message="international order"/>
+                <inOnly uri="activemq:queue:orders.int"/>
+            </otherwise>
+        </choice>
     </route>
 </camelContext>
 
 <bean id="csvorderToCDM" class="nl.rubix.codefest.orderprocessing.mappings.CsvOrderModelToCDM"/>
+<bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent" />
 
 </blueprint>
