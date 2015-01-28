@@ -8,9 +8,10 @@
   <camelContext trace="false" xmlns="http://camel.apache.org/schema/blueprint">
     <dataFormats>
         <bindy type="Csv" packages="nl.rubix.codefest.orderprocessing.message" id="csvordermodel"/>
+        <jaxb id="cdm" prettyPrint="true" contextPath="nl.rubix.orderprocessing.order._1"/>
     </dataFormats>
     <route customId="true" id="receiveOrderCsv.transport">
-        <from uri="direct:in"/>
+        <from uri="file:///home/jboss/Documents/orderprocessing/in/"/>
         <unmarshal ref="csvordermodel"/>
         <split>
             <simple>${body}</simple>
@@ -23,12 +24,14 @@
         <choice>
             <when>
                 <simple>${body.countryCode} == 'nl'</simple>
+                <marshal ref="cdm"/>
                 <log message="order for nl: ${body}"/>
-                <inOnly uri="activemq:queue:orders.nl"/>
+                <inOnly uri="activemq:queue:orders.nl?jmsMessageType=Text"/>
             </when>
             <otherwise>
+            	<marshal ref="cdm"/>
                 <log message="international order"/>
-                <inOnly uri="activemq:queue:orders.int"/>
+                <inOnly uri="activemq:queue:orders.int?jmsMessageType=Text"/>
             </otherwise>
         </choice>
     </route>

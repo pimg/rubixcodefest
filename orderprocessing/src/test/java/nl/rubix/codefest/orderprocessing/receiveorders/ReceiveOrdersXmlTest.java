@@ -121,7 +121,7 @@ public class ReceiveOrdersXmlTest extends CamelBlueprintTestSupport {
 		context.getRouteDefinition("routeOrders").adviceWith(context, new AdviceWithRouteBuilder() {
 			@Override		
 			public void configure() throws Exception {
-				interceptSendToEndpoint("activemq:queue:orders.nl").skipSendToOriginalEndpoint().to("mock:out");
+				interceptSendToEndpoint("activemq:queue:orders.nl?jmsMessageType=Text").skipSendToOriginalEndpoint().to("mock:out");
 					}
 				});
 		context.start();

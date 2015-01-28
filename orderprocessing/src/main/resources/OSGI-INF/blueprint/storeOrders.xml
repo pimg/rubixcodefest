@@ -23,7 +23,28 @@
             <simple>${body.totalPrice}</simple>
         </setHeader>
         <setHeader headerName="countryCode">
-            <simple>${body.countryCode}</simple>
+            <constant>NL</constant>
+        </setHeader>
+        <to uri="sql:{{sql.insertOrder}}"/>
+		<log message="Inserted new order ${body.orderId}"/>
+    </route>
+    <route customId="true" id="receiveIntOrders">
+        <from uri="activemq:queue:orders.int"/>
+        <log message="received order"/>
+        <unmarshal>
+            <jaxb contextPath="nl.rubix.orderprocessing.order._1" partClass="nl.rubix.orderprocessing.order._1.Order"/>
+        </unmarshal>
+        <setHeader headerName="orderId">
+            <simple>${body.orderId}</simple>
+        </setHeader>
+        <setHeader headerName="totalAmount">
+            <simple>${body.totalAmount}</simple>
+        </setHeader>
+        <setHeader headerName="totalPrice">
+            <simple>${body.totalPrice}</simple>
+        </setHeader>
+        <setHeader headerName="countryCode">
+            <constant>IN</constant>
         </setHeader>
         <to uri="sql:{{sql.insertOrder}}"/>
 		<log message="Inserted new order ${body.orderId}"/>
