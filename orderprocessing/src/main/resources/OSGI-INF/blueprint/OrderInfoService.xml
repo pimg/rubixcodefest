@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+       xmlns:camel="http://camel.apache.org/schema/blueprint"
+       xmlns:cxf="http://camel.apache.org/schema/blueprint/cxf"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+       http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+
+	<cxf:cxfEndpoint id="orderinfoservice" address="http://localhost:1234/orderprocessing/orderinfoservice/" serviceClass="nl.rubix.orderprocessing.orderinfoservice.OrderInfoService">
+<!--         <cxf:outInterceptors>
+            <ref bean="loggingOutInterceptor"/>
+        </cxf:outInterceptors>
+        <cxf:inInterceptors>
+            <ref bean="loggingInInterceptor"/>
+        </cxf:inInterceptors> -->
+    </cxf:cxfEndpoint>
+    
+    <bean id="loggingOutInterceptor" class="org.apache.cxf.interceptor.LoggingOutInterceptor"/>
+    <bean id="loggingInInterceptor" class="org.apache.cxf.interceptor.LoggingInInterceptor"/>
+    
+    <bean id="sqltoselectorderidsresponse" class="nl.rubix.codefest.orderprocessing.mappings.SqlToSelectOrderIdsResponse"/>
+    
+  <camelContext trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+  	<propertyPlaceholder id="placeholder" location="classpath:sql.properties"/>
+    <route customId="true" id="OrderInfoService.transport">
+        <from uri="cxf:bean:orderinfoservice"/>
+        <setExchangePattern pattern="InOut"/>
+        <transform>
+            <simple>${in.body[0]}</simple>
+        </transform>
+        <choice>
+            <when>
+                <simple>${in.header.SOAPAction} contains 'getOrderIdsByDistrict'</simple>
+                <log message="retrieve order ids by district"/>
+                <to uri="direct:getorderidsbydistrict"/>
+            </when>
+            <when>
+                <simple>${in.header.SOAPAction} contains 'getOrderByID'</simple>
+                <log message="search for order based on id"/>
+                <to uri="direct:getorderbyid"/>
+            </when>
+        </choice>
+    </route>
+    <route customId="true" id="OrderInfoService.getOrderIdsByDistrict">
+    	<from uri="direct:getorderidsbydistrict"/>
+    	<setHeader headerName="countryCode">
+    		<simple>${body.getCountryCode}</simple>
+    	</setHeader>
+    	<log message="got request for country: ${header.countryCode}"/>
+    	<to uri="sql:{{sql.selectOrderIds}}"/>
+    	<process ref="sqltoselectorderidsresponse"/>
+    </route>
+    <route customId="true" id="OrderInfoService.getOrderByID">
+    	<from uri="direct:getorderbyid"/>
+    	<log message="got request"/>
+    </route>
+</camelContext>
+
+</blueprint>
