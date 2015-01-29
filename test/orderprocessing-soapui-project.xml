@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project activeEnvironment="Default" name="orderprocessing" resourceRoot="" soapui-version="5.0.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="OrderInfoServiceSOAP" type="wsdl" bindingName="{http://www.rubix.nl/orderprocessing/OrderInfoService/}OrderInfoServiceSOAP" soapVersion="1_1" anonymous="optional" definition="file:/home/jboss/repository/pimg/rubixcodefest/orderprocessing/src/main/resources/wsdl/OrderInfoService.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/home/jboss/repository/pimg/rubixcodefest/orderprocessing/src/main/resources/wsdl/OrderInfoService.wsdl"><con:part><con:url>file:/home/jboss/repository/pimg/rubixcodefest/orderprocessing/src/main/resources/wsdl/OrderInfoService.wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="OrderInfoService" targetNamespace="http://www.rubix.nl/orderprocessing/OrderInfoService/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.rubix.nl/orderprocessing/OrderInfoService/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.rubix.nl/orderprocessing/OrderInfoService/">
+      <xsd:element name="getOrderIdsByDistrictRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="countryCode" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getOrderIdsByDistrictResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="orders">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="order" maxOccurs="unbounded" minOccurs="0">
+                    <xsd:complexType>
+                      <xsd:sequence>
+                        <xsd:element name="ID" type="xsd:string"/>
+                      </xsd:sequence>
+                    </xsd:complexType>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getOrderByIDRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="ID" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getOrderByIDResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="order" minOccurs="0">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="orderId" type="xsd:string"/>
+                  <xsd:element name="totalAmount" type="xsd:integer"/>
+                  <xsd:element name="totalPrice" type="xsd:decimal"/>
+                  <xsd:element name="countryCode" type="xsd:string"/>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getOrderIdsByDistrictRequest">
+    <wsdl:part name="getOrderIdsByDistrictRequest" element="tns:getOrderIdsByDistrictRequest"/>
+  </wsdl:message>
+  <wsdl:message name="getOrderIdsByDistrictResponse">
+    <wsdl:part name="getOrderIdsByDistrictResponse" element="tns:getOrderIdsByDistrictResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getOrderByIDRequest">
+    <wsdl:part name="getOrderByIDRequest" element="tns:getOrderByIDRequest"/>
+  </wsdl:message>
+  <wsdl:message name="getOrderByIDResponse">
+    <wsdl:part name="getOrderByIDResponse" element="tns:getOrderByIDResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="OrderInfoService">
+    <wsdl:operation name="getOrderIdsByDistrict">
+      <wsdl:input message="tns:getOrderIdsByDistrictRequest"/>
+      <wsdl:output message="tns:getOrderIdsByDistrictResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getOrderByID">
+      <wsdl:input message="tns:getOrderByIDRequest"/>
+      <wsdl:output message="tns:getOrderByIDResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="OrderInfoServiceSOAP" type="tns:OrderInfoService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getOrderIdsByDistrict">
+      <soap:operation soapAction="http://www.rubix.nl/orderprocessing/OrderInfoService/getOrderIdsByDistrict"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getOrderByID">
+      <soap:operation soapAction="http://www.rubix.nl/orderprocessing/OrderInfoService/getOrderByID"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="OrderInfoService">
+    <wsdl:port binding="tns:OrderInfoServiceSOAP" name="OrderInfoServiceSOAP">
+      <soap:address location="http://localhost:1234/orderprocessing/orderinfoservice/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:1234/orderprocessing/orderinfoservice/</con:endpoint></con:endpoints><con:operation isOneWay="false" action="http://www.rubix.nl/orderprocessing/OrderInfoService/getOrderIdsByDistrict" name="getOrderIdsByDistrict" bindingOperationName="getOrderIdsByDistrict" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:1234/orderprocessing/orderinfoservice/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ord="http://www.rubix.nl/orderprocessing/OrderInfoService/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ord:getOrderIdsByDistrictRequest>
+         <countryCode>NL</countryCode>
+      </ord:getOrderIdsByDistrictRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.rubix.nl/orderprocessing/OrderInfoService/getOrderIdsByDistrict"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="http://www.rubix.nl/orderprocessing/OrderInfoService/getOrderByID" name="getOrderByID" bindingOperationName="getOrderByID" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:1234/orderprocessing/orderinfoservice/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ord="http://www.rubix.nl/orderprocessing/OrderInfoService/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ord:getOrderByIDRequest>
+         <ID>?</ID>
+      </ord:getOrderByIDRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.rubix.nl/orderprocessing/OrderInfoService/getOrderByID"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>
