@@ -39,7 +39,7 @@
     	</setHeader>
     	<log message="got request for country: ${header.countryCode}"/>
     	<to uri="sql:{{sql.selectOrderIds}}"/>
-    	<process ref="sqltoselectorderidsresponse"/>
+    	<bean ref="sqltoselectorderidsresponse"/>
     </route>
     <route customId="true" id="OrderInfoService.getOrderByID">
     	<from uri="direct:getorderbyid"/>
@@ -48,7 +48,7 @@
     	</setHeader>
     	<log message="got request for id: ${header.orderid}"/>
     	<to uri="sql:{{sql.selectOrder}}"/>
-    	<process ref="sqltoselectorderbyid"/>
+    	<bean ref="sqltoselectorderbyid"/>
     </route>
 </camelContext>
 
