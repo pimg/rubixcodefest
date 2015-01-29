@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://www.rubix.nl/orderprocessing/OrderInfoService/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	name="OrderInfoService" targetNamespace="http://www.rubix.nl/orderprocessing/OrderInfoService/">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://www.rubix.nl/orderprocessing/OrderInfoService/">
+			<xsd:element name="getOrderIdsByDistrictRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="countryCode" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="getOrderIdsByDistrictResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="orders">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="order" maxOccurs="unbounded" minOccurs="0">
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="ID" type="xsd:string" />
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="getOrderByIDRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="ID" type="xsd:string"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="getOrderByIDResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="order" minOccurs="0">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="orderId" type="xsd:string" />
+									<xsd:element name="totalAmount" type="xsd:integer" />
+									<xsd:element name="totalPrice" type="xsd:decimal" />
+									<xsd:element name="countryCode" type="xsd:string" />
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="getOrderIdsByDistrictRequest">
+		<wsdl:part name="getOrderIdsByDistrictRequest" element="tns:getOrderIdsByDistrictRequest" />
+	</wsdl:message>
+	<wsdl:message name="getOrderIdsByDistrictResponse">
+		<wsdl:part name="getOrderIdsByDistrictResponse" element="tns:getOrderIdsByDistrictResponse" />
+	</wsdl:message>
+	<wsdl:message name="getOrderByIDRequest">
+		<wsdl:part name="getOrderByIDRequest" element="tns:getOrderByIDRequest"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getOrderByIDResponse">
+		<wsdl:part name="getOrderByIDResponse" element="tns:getOrderByIDResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="OrderInfoService">
+		<wsdl:operation name="getOrderIdsByDistrict">
+			<wsdl:input message="tns:getOrderIdsByDistrictRequest" />
+			<wsdl:output message="tns:getOrderIdsByDistrictResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="getOrderByID">
+			<wsdl:input message="tns:getOrderByIDRequest"></wsdl:input>
+			<wsdl:output message="tns:getOrderByIDResponse"></wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="OrderInfoServiceSOAP" type="tns:OrderInfoService">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="getOrderIdsByDistrict">
+			<soap:operation
+				soapAction="http://www.rubix.nl/orderprocessing/OrderInfoService/getOrderIdsByDistrict" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getOrderByID">
+			<soap:operation
+				soapAction="http://www.rubix.nl/orderprocessing/OrderInfoService/getOrderByID" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="OrderInfoService">
+		<wsdl:port binding="tns:OrderInfoServiceSOAP" name="OrderInfoServiceSOAP">
+			<soap:address
+				location="http://localhost:1234/orderprocessing/orderinfoservice/" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
